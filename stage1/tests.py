@@ -33,7 +33,7 @@ class Tests(StageTest):
                 height, width, batch_size, shuffle = value.split()
 
                 if height != width and height != "150":
-                    return CheckResult.wrong("The image height and width value is 150")
+                    return CheckResult.wrong("The image height and width value should be 150")
 
                 if batch_size != "64":
                     return CheckResult.wrong("Incorrect batch size")

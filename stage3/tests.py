@@ -28,7 +28,7 @@ class Tests(StageTest):
             answer = pickle.load(stage_three)
 
         if not isinstance(answer, numpy.ndarray):
-            return CheckResult.wrong("`stage_three_history` is a numpy array")
+            return CheckResult.wrong("`stage_three_history` should be a numpy array")
 
         labels = test_labels()
         accuracy = labels == answer
@@ -43,7 +43,7 @@ class Tests(StageTest):
                                      "The difference should not be more than 10%.")
 
         if train_accuracy - test_accuracy > 0.10:
-            return CheckResult.wrong("The model overfits the train set\n"
+            return CheckResult.wrong("The model is overfitting the train set\n"
                                      "The difference between train and test\n"
                                      f"accuracies is {train_accuracy - test_accuracy}\n"
                                      "The difference should not be more than 10%")

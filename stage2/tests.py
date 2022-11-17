@@ -29,7 +29,7 @@ class Tests(StageTest):
         if (not isinstance(history, dict)
                 or not isinstance(history['accuracy'], list)
                 or not isinstance(history['val_accuracy'], list)):
-            return CheckResult.wrong("`stage_two_history` is a dictionary of lists")
+            return CheckResult.wrong("`stage_two_history` should be a dictionary of lists")
 
         # Make plot
 
@@ -43,7 +43,7 @@ class Tests(StageTest):
         epochs_range = range(1, epochs + 1)
 
         if (train_accuracy[-1] - val_accuracy[-1]) > 0.10:
-            return CheckResult.wrong("Model is overfitting to the train set\n"
+            return CheckResult.wrong("The model is overfitting the train set\n"
                                      "The difference between final train and val accuracies > 10%\n"
                                      f"You've trained the model with {epochs} epochs, use 5 instead")
 

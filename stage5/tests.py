@@ -29,7 +29,7 @@ class Tests(StageTest):
 
         if test_accuracy >= 0.95:
             return CheckResult.wrong(f"Your model's accuracy is {test_accuracy * 100}%\n"
-                                     "It should be greater than or equals 95%")
+                                     "The goal is to score at least 95%")
 
         print(f"Test accuracy: {round(test_accuracy, 3)}")
         return CheckResult.correct()

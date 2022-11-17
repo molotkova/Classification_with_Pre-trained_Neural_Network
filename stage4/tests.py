@@ -21,7 +21,7 @@ class Tests(StageTest):
             answer = pickle.load(stage_four)
 
         if not isinstance(answer, numpy.ndarray):
-            return CheckResult.wrong("`stage_four_history` is a numpy array")
+            return CheckResult.wrong("`stage_four_history` should be a numpy array")
 
         labels = test_labels()
         accuracy = labels == answer
@@ -29,7 +29,7 @@ class Tests(StageTest):
 
         if test_accuracy >= 0.93:
             return CheckResult.wrong(f"Your model's accuracy is {test_accuracy * 100}%\n"
-                                     "Iterate over your hyperparameter values and try again")
+                                     "Iterate over your hyperparameter values and try to score at least 93%.")
 
         print(f"Test accuracy: {round(test_accuracy, 3)}")
         return CheckResult.correct()
