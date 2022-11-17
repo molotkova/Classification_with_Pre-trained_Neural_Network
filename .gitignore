@@ -3,3 +3,5 @@ venv/
 stage[1-5]/__pycache__/
 zipper.sh
 Data/
+SavedHistory/
+SavedModels/
