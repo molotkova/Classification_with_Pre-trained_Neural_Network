@@ -1,3 +1,5 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 import keras
 from keras.applications.vgg16 import VGG16, preprocess_input
@@ -8,7 +10,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import requests
-import os
 from zipfile import ZipFile
 
 if __name__ == '__main__':

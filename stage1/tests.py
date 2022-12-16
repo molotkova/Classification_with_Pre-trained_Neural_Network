@@ -1,5 +1,5 @@
-import sys
-import subprocess
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from hstest import StageTest, TestCase, CheckResult
 from hstest.stage_test import List
 
@@ -11,8 +11,14 @@ class Tests(StageTest):
 
     def check(self, reply: str, attach):
 
-        result = subprocess.run([sys.executable, 'transfer.py'], capture_output=True, text=True)
-        std_out = [txt for txt in result.stdout.split('\n') if txt]
+        if not reply:
+            return CheckResult.wrong("No information printed to standard output")
+
+        std_out = [txt for txt in reply.split('\n') if txt]
+
+        if len(std_out) != 4:
+            return CheckResult.wrong("Incorrect number of lines printed\n"
+                                     "There should be 4 lines printed.")
 
         for idx, value in enumerate(std_out):
             if idx == 0:
@@ -32,7 +38,7 @@ class Tests(StageTest):
                     return CheckResult.wrong("Return height, width, batch_size, and shuffle values in this order")
                 height, width, batch_size, shuffle = value.split()
 
-                if height != width and height != "150":
+                if height != width and (height != "150" or height != "150.0"):
                     return CheckResult.wrong("The image height and width value should be 150")
 
                 if batch_size != "64":
