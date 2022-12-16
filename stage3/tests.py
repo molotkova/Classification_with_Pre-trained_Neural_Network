@@ -1,7 +1,8 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import numpy
 from hstest import StageTest, TestCase, CheckResult
 from hstest.stage_test import List
-import os
 import pickle
 from test_labels import test_labels
 

@@ -1,9 +1,10 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 from keras.models import load_model
 from keras.applications.vgg16 import VGG16, preprocess_input
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
-import os
 import pickle
 
 if __name__ == '__main__':
@@ -35,5 +36,3 @@ if __name__ == '__main__':
 
     with open("../SavedHistory/stage_three_history", "wb") as file:
         pickle.dump(probabilities, file, protocol=pickle.HIGHEST_PROTOCOL)
-
-
