@@ -1,15 +1,15 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from hstest import StageTest, TestCase, CheckResult
 from hstest.stage_test import List
-import os
 import numpy
 import pickle
 from test_labels import test_labels
 
-
 class Tests(StageTest):
 
     def generate(self) -> List[TestCase]:
-        return [TestCase(time_limit=3500000)]
+        return [TestCase(time_limit=5000000)]
 
     def check(self, reply: str, attach):
 
@@ -27,7 +27,7 @@ class Tests(StageTest):
         accuracy = labels == answer
         test_accuracy = accuracy.sum() / 50
 
-        if test_accuracy >= 0.95:
+        if test_accuracy < 0.95:
             return CheckResult.wrong(f"Your model's accuracy is {test_accuracy * 100}%\n"
                                      "The goal is to score at least 95%")
 

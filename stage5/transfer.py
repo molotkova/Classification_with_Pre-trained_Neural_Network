@@ -1,3 +1,5 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 from keras.applications.vgg16 import VGG16, preprocess_input
 from keras.models import Sequential
@@ -5,9 +7,11 @@ from keras.layers import Dense, Dropout, Dense
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping
 import numpy as np
-import os
 import pickle
 from keras.models import load_model
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 if __name__ == '__main__':
     # Write your code below
