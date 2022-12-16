@@ -1,10 +1,10 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from hstest import StageTest, TestCase, CheckResult
 from hstest.stage_test import List
-import os
 from keras.models import load_model
 import matplotlib.pyplot as plt
 import pickle
-
 
 class Tests(StageTest):
 
@@ -28,8 +28,11 @@ class Tests(StageTest):
 
         if (not isinstance(history, dict)
                 or not isinstance(history['accuracy'], list)
-                or not isinstance(history['val_accuracy'], list)):
-            return CheckResult.wrong("`stage_two_history` should be a dictionary of lists")
+                or not isinstance(history['val_accuracy'], list)
+                or not isinstance(history['loss'], list)
+                or not isinstance(history['val_loss'], list)):
+            return CheckResult.wrong("`stage_two_history` should be a dictionary of lists\n"
+                                     "Its keys should be: accuracy, val_accuracy, loss, val_loss")
 
         # Make plot
 

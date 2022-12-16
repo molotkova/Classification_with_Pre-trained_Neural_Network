@@ -1,11 +1,14 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 from keras.applications.vgg16 import VGG16, preprocess_input
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.preprocessing.image import ImageDataGenerator
-import os
-import time
 import pickle
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 path = r'../Data/'
 path_train = os.path.join(path, 'train')
