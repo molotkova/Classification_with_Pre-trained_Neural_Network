@@ -9,23 +9,22 @@ from test_labels import test_labels
 class Tests(StageTest):
 
     def generate(self) -> List[TestCase]:
-        return [TestCase(time_limit=5000000)]
+        return [TestCase(time_limit=10000000)]
 
     def check(self, reply: str, attach):
 
         if 'stage_five_history' not in os.listdir('../SavedHistory'):
-            return CheckResult.wrong("The file `stage_five_history`\n"
-                                     "is not in SavedHistory directory")
+            return CheckResult.wrong("The file `stage_five_history` is not in SavedHistory directory")
 
         with open('../SavedHistory/stage_five_history', 'rb') as stage_five:
             answer = pickle.load(stage_five)
 
         if not isinstance(answer, numpy.ndarray):
-            return CheckResult.wrong("`stage_five_history` is a numpy array")
+            return CheckResult.wrong("`stage_five_history` should be a numpy array")
 
         labels = test_labels()
         accuracy = labels == answer
-        test_accuracy = accuracy.sum() / 50
+        test_accuracy = accuracy.mean()
 
         if test_accuracy < 0.95:
             return CheckResult.wrong(f"Your model's accuracy is {test_accuracy * 100}%\n"

@@ -1,11 +1,8 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
-from keras.applications.vgg16 import VGG16, preprocess_input
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Dense
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import EarlyStopping
+from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import pickle
 from keras.models import load_model
@@ -21,13 +18,14 @@ if __name__ == '__main__':
 
     # Hyper parameters
     batch_size = 16
-    epochs = 10
+    epochs = 5
     img_height = img_width = 224
     learning_rate = 1e-5
 
-    # call_back = EarlyStopping(monitor='loss', patience=3)
+    # Unfreeze some layers
+    for lay in (model.layers[0].layers[-6:]):
+        lay.trainable = True
 
-    model.layers[0].trainable = True
 
     path = r'../Data'
     path_train = os.path.join(path, 'train')
@@ -41,12 +39,7 @@ if __name__ == '__main__':
     size_train = len(os.listdir(path_train_cat) + os.listdir(path_train_dog))
     size_valid = len(os.listdir(path_valid_cat) + os.listdir(path_valid_dog))
 
-    aug_data_generator = ImageDataGenerator(preprocessing_function=preprocess_input,
-                                            rotation_range=30,
-                                            horizontal_flip=True,
-                                            shear_range=0.2,
-                                            zoom_range=0.2,
-                                            )
+    aug_data_generator = ImageDataGenerator(preprocessing_function=preprocess_input,)
 
     train_data_gen = aug_data_generator.flow_from_directory(
         batch_size=batch_size,
@@ -83,8 +76,6 @@ if __name__ == '__main__':
     )
 
     probabilities = np.argmax(model.predict(test_data_gen), axis=1)
-
-    # print(probabilities)
 
     with open("../SavedHistory/stage_five_history", "wb") as file:
         pickle.dump(probabilities, file, protocol=pickle.HIGHEST_PROTOCOL)
