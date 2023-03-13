@@ -54,14 +54,24 @@ test_data_gen = data_generator.flow_from_directory(
 
 # Stage 2
 
-model = Sequential()
-model.add(VGG16(
-    include_top=False,
-    pooling='avg',
-    weights='imagenet',
-))
+# model = Sequential()
+# model.add(VGG16(
+#     include_top=False,
+#     pooling='avg',
+#     weights='imagenet',
+# ))
+# model.add(Dense(2, activation='softmax'))
 
-model.add(Dense(2, activation='softmax'))
+model = Sequential(
+    [
+        VGG16(
+            include_top=False,
+            pooling='avg',
+            weights='imagenet'),
+        Dense(2, activation='softmax')
+    ]
+)
+
 
 model.layers[0].trainable = False
 

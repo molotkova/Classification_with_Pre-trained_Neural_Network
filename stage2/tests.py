@@ -14,14 +14,10 @@ class Tests(StageTest):
     def check(self, reply: str, attach):
 
         if 'stage_two_model.h5' not in os.listdir('../SavedModels'):
-            return CheckResult.wrong("The file `stage_two_model.h5`\n"
-                                     "is not in SavedModels directory")
-
-        model = load_model('../SavedModels/stage_two_model.h5')
+            return CheckResult.wrong("The file `stage_two_model.h5` is not in SavedModels directory")
 
         if 'stage_two_history' not in os.listdir('../SavedHistory'):
-            return CheckResult.wrong("The file `stage_two_history`\n"
-                                     "is not in SavedHistory directory")
+            return CheckResult.wrong("The file `stage_two_history` is not in SavedHistory directory")
 
         with open('../SavedHistory/stage_two_history', 'rb') as stage_two:
             history = pickle.load(stage_two)
@@ -31,11 +27,10 @@ class Tests(StageTest):
                 or not isinstance(history['val_accuracy'], list)
                 or not isinstance(history['loss'], list)
                 or not isinstance(history['val_loss'], list)):
-            return CheckResult.wrong("`stage_two_history` should be a dictionary of lists\n"
-                                     "Its keys should be: accuracy, val_accuracy, loss, val_loss")
+            return CheckResult.wrong("`stage_two_history` should be a dictionary of four lists;\n"
+                                     "Its keys should: \"accuracy\", \"val_accuracy\", \"loss\",and \" val_loss\".")
 
         # Make plot
-
         train_accuracy = history['accuracy']
         val_accuracy = history['val_accuracy']
 
@@ -45,10 +40,15 @@ class Tests(StageTest):
         epochs = len(train_accuracy)
         epochs_range = range(1, epochs + 1)
 
+        if ((train_accuracy[-1] - val_accuracy[-1]) > 0.10) and epochs != 5:
+            return CheckResult.wrong("The model is overfitting the train set;\n"
+                                     "The difference between train and val accuracies after the last epoch is more than 10%;\n"
+                                     f"You've trained the model with {epochs} epochs, use 5 instead.")
+
         if (train_accuracy[-1] - val_accuracy[-1]) > 0.10:
-            return CheckResult.wrong("The model is overfitting the train set\n"
-                                     "The difference between final train and val accuracies > 10%\n"
-                                     f"You've trained the model with {epochs} epochs, use 5 instead")
+            return CheckResult.wrong("The model is overfitting the train set;\n"
+                                     "The difference between train and val accuracies after the last epoch is more than 10%;"
+                                     "Make sure to follow the objectives to implement a correct solution.")
 
         mosaic = """
         AB
@@ -60,17 +60,18 @@ class Tests(StageTest):
         for label, axes in axs.items():
             if label == 'A':
                 axes.plot(epochs_range, train_accuracy, label='train_accuracy')
-                axes.plot(epochs_range, val_accuracy, label='test_accuracy')
+                axes.plot(epochs_range, val_accuracy, label='val_accuracy')
                 axes.set_title("Accuracy Plot")
                 axes.set_xlabel('Number of epoch')
                 axes.set_ylabel('Accuracy Score')
+                axes.legend()
             if label == 'B':
-                axes.plot(epochs_range, train_loss)
-                axes.plot(epochs_range, val_loss)
+                axes.plot(epochs_range, train_loss, label='train_accuracy')
+                axes.plot(epochs_range, val_loss, label='val_accuracy')
                 axes.set_title("Loss Plot")
                 axes.set_xlabel('Number of epoch')
                 axes.set_ylabel('Loss Score')
-            axes.legend()
+                axes.legend()
         plt.show()
 
         return CheckResult.correct()
