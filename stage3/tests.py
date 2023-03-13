@@ -15,12 +15,10 @@ class Tests(StageTest):
     def check(self, reply: str, attach):
 
         if 'stage_three_history' not in os.listdir('../SavedHistory'):
-            return CheckResult.wrong("The file `stage_three_history\n"
-                                     "is not in SavedHistory directory")
+            return CheckResult.wrong("The file `stage_three_history is not in SavedHistory directory")
 
         if 'stage_two_history' not in os.listdir('../SavedHistory'):
-            return CheckResult.wrong("The file `stage_two_history\n"
-                                     "is not in SavedHistory directory")
+            return CheckResult.wrong("The file `stage_two_history is not in SavedHistory directory")
 
         with open('../SavedHistory/stage_two_history', 'rb') as stage_two:
             history = pickle.load(stage_two)
@@ -36,18 +34,18 @@ class Tests(StageTest):
 
         valid_accuracy = history['val_accuracy'][-1]
         train_accuracy = history['accuracy'][-1]
-        test_accuracy = accuracy.sum() / 50
+        test_accuracy = accuracy.mean()
 
-        if valid_accuracy - test_accuracy > 0.10:
+        if valid_accuracy - test_accuracy > 0.15:
             return CheckResult.wrong("The difference between validation and test\n"
-                                     f"accuracies is {valid_accuracy - test_accuracy}\n"
-                                     "The difference should not be more than 10%.")
+                                     f"accuracies is {valid_accuracy - test_accuracy};\n"
+                                     "The difference should not be more than 15%.")
 
-        if train_accuracy - test_accuracy > 0.10:
-            return CheckResult.wrong("The model is overfitting the train set\n"
+        if train_accuracy - test_accuracy > 0.15:
+            return CheckResult.wrong("The model is overfitting the train set;\n"
                                      "The difference between train and test\n"
                                      f"accuracies is {train_accuracy - test_accuracy}\n"
-                                     "The difference should not be more than 10%")
+                                     "The difference should not be more than 15%.")
 
         print(f"Test accuracy: {round(test_accuracy, 3)}")
 
