@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import requests
 from zipfile import ZipFile
+import sys
 
 if __name__ == '__main__':
 
@@ -28,18 +29,20 @@ if __name__ == '__main__':
 
     # Download data if it is unavailable.
     if 'cats-and-dogs-images.zip' not in os.listdir('../Data'):
-        print('Image dataset loading.')
+        sys.stderr.write("[INFO] Image dataset is loading.\n")
         url = "https://www.dropbox.com/s/jgv5zpw41ydtfww/cats-and-dogs-images.zip?dl=1"
         r = requests.get(url, allow_redirects=True)
         open('../Data/cats-and-dogs-images.zip', 'wb').write(r.content)
-        print('Loaded.')
+        sys.stderr.write("[INFO] Loaded.\n")
 
-        print("\nExtracting files")
+        sys.stderr.write("\n[INFO] Extracting files.\n")
         with ZipFile('../Data/cats-and-dogs-images.zip', 'r') as zip:
             zip.extractall(path="../Data")
-            print("Completed.")
+            sys.stderr.write("[INFO] Completed.\n")
 
-    # Type your code here
+    # write your code here
+
+    # Reference solution starts here
 
     batch_size = 64
     epochs = 5

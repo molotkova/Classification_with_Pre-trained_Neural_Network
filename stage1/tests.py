@@ -41,7 +41,7 @@ class Tests(StageTest):
                 if height != width and (height != "150" or height != "150.0"):
                     return CheckResult.wrong("The image height and width value should be 150")
 
-                if batch_size != "64" or batch_size != "64.0":
+                if batch_size != "64" and batch_size != "64.0":
                     return CheckResult.wrong("Incorrect batch size")
 
                 if shuffle != "False":
