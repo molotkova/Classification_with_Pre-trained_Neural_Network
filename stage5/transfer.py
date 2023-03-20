@@ -1,8 +1,8 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
-from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from keras.applications.vgg16 import VGG16, preprocess_input
+from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import pickle
 from keras.models import load_model
