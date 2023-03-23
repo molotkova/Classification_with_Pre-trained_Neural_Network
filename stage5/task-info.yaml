@@ -2,7 +2,5 @@ type: edu
 files:
 - name: transfer.py
   visible: true
-- name: test_labels.py
-  visible: false
 - name: tests.py
   visible: true

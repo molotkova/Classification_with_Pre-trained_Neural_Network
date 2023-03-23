@@ -4,7 +4,10 @@ from hstest import StageTest, TestCase, CheckResult
 from hstest.stage_test import List
 import numpy
 import pickle
-from test_labels import test_labels
+
+
+def test_labels():
+    return numpy.array([0] * 25 + [1] * 25)
 
 
 class Tests(StageTest):

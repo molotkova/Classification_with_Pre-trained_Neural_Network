@@ -4,5 +4,4 @@ files:
   visible: true
 - name: tests.py
   visible: true
-- name: test_labels.py
-  visible: false
+
